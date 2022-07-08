@@ -1,4 +1,5 @@
-﻿using ElasticUp.Tests.Infrastructure;
+﻿using System;
+using ElasticUp.Tests.Infrastructure;
 using NUnit.Framework;
 
 namespace ElasticUp.Tests
@@ -22,7 +23,7 @@ namespace ElasticUp.Tests
         
         private static ElasticSearchContainer StartAndWaitForElasticSearchService()
         {
-            var elasticSearchContainer = ElasticSearchContainer.StartNewFromArchive(Resources.elasticsearch_2_4_1_with_head_and_delete_by_query);
+            var elasticSearchContainer = ElasticSearchContainer.Start(new Version(2, 4,1));
             elasticSearchContainer.WaitUntilElasticOperational();
             return elasticSearchContainer;
         }
