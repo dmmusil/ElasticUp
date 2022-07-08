@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using ElasticUp.Util;
 using Nest;
+
+[assembly:InternalsVisibleTo("ElasticUp.Tests")]
 
 namespace ElasticUp.Extension
 {

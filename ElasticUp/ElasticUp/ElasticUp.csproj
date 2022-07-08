@@ -1,75 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6E73DE69-A017-4E39-9263-30128EDAEC80}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ElasticUp</RootNamespace>
-    <AssemblyName>ElasticUp</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>net472</TargetFramework>
+    <DebugType>embedded</DebugType>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>lib\net40\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Helper\IndexHelper.cs" />
-    <Compile Include="Helper\IndexSettingsForBulkHelper.cs" />
-    <Compile Include="History\ElasticUpMigrationHistoryConfig.cs" />
-    <Compile Include="Util\ElasticUpException.cs" />
-    <Compile Include="Util\ElasticUpTimer.cs" />
-    <Compile Include="Util\ReadOnlyIndexContext.cs" />
-    <Compile Include="Extension\TimeSpanExtensions.cs" />
-    <Compile Include="History\ElasticUpMigrationHistory.cs" />
-    <Compile Include="Migration\AbstractElasticUpMigration.cs" />
-    <Compile Include="Migration\ElasticUpCustomMigration.cs" />
-    <Compile Include="Migration\ElasticUpVersionedIndexMigration.cs" />
-    <Compile Include="Helper\AliasHelper.cs" />
-    <Compile Include="Operation\Delete\DeleteByTypeOperation.cs" />
-    <Compile Include="Operation\Mapping\CopyTypeMappingOperation.cs" />
-    <Compile Include="Operation\Mapping\PutTypeMappingOperation.cs" />
-    <Compile Include="Operation\Reindex\BatchUpdateDescriptor.cs" />
-    <Compile Include="Operation\Reindex\BatchUpdateOperation.cs" />
-    <Compile Include="Operation\Reindex\BatchUpdateTypeOperation.cs" />
-    <Compile Include="Operation\Reindex\BatchUpdateFromTypeToTypeOperation.cs" />
-    <Compile Include="Operation\Reindex\BatchUpdateFromTypeToTypeUsingJObjectOperation.cs" />
-    <Compile Include="Operation\Index\DeleteIndexOperation.cs" />
-    <Compile Include="Operation\Alias\RemoveAliasOperation.cs" />
-    <Compile Include="Operation\Alias\SwitchAliasOperation.cs" />
-    <Compile Include="Operation\Alias\CreateAliasOperation.cs" />
-    <Compile Include="Operation\Index\CreateIndexOperation.cs" />
-    <Compile Include="Operation\AbstractElasticUpOperation.cs" />
-    <Compile Include="Operation\Reindex\ReindexTypeOperation.cs" />
-    <Compile Include="Extension\ElasticClientExtensions.cs" />
-    <Compile Include="Operation\Reindex\TransformedDocument.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ElasticUp.cs" />
-    <Compile Include="History\MigrationHistoryHelper.cs" />
-    <Compile Include="Util\VersionedIndexName.cs" />
-    <Compile Include="Validations\IndexValidations.cs" />
-    <Compile Include="Validations\StringValidations.cs" />
-  </ItemGroup>
+  
   <ItemGroup>
     <None Include="ElasticUp.nuspec" />
   </ItemGroup>
@@ -79,12 +19,4 @@
     <PackageReference Include="NEST" Version="2.4.7" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
