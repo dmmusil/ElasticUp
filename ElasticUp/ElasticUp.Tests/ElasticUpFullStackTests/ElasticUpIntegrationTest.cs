@@ -86,7 +86,7 @@ namespace ElasticUp.Tests.ElasticUpFullStackTests
 
                 throw new AssertionException("The above code should throw an error");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //all is well here on the dark side
             }
