@@ -10,7 +10,7 @@ namespace ElasticUp.Tests
 {
     public abstract class AbstractIntegrationTest
     {
-        private const string ElasticSearchUrl = "http://localhost:9200";
+        private const string ElasticSearchUrl = "http://127.0.0.1:9200";
         protected VersionedIndexName TestIndex;
         protected VersionedIndexName MigrationHistoryTestIndex;
 

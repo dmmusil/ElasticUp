@@ -1,0 +1,29 @@
+version: "2.2"
+services:
+  elasticsearch:
+    image: elasticsearch:2.4.1
+    container_name: elasticsearch
+    environment:
+      - node.name=es01
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 9200:9200
+    networks:
+      - dockernetwork
+  cerebro:
+    image: lmenezes/cerebro
+    container_name: cerebro
+    ports:
+      - 9000:9000
+    networks:
+      - dockernetwork
+    depends_on:
+      - elasticsearch # connect to the elastic container with http://elasticsearch:9200
+networks:
+  dockernetwork:
+    driver: bridge

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ElasticUp.Tests.Infrastructure;
 using NUnit.Framework;
 
@@ -10,9 +11,9 @@ namespace ElasticUp.Tests
         private ElasticSearchContainer _elasticSearchContainer;
 
         [OneTimeSetUp]
-        public void SetupElasticSearchInstance()
+        public async Task SetupElasticSearchInstance()
         {
-            _elasticSearchContainer = StartAndWaitForElasticSearchService();
+            _elasticSearchContainer = await StartAndWaitForElasticSearchService();
         }
 
         [OneTimeTearDown]
@@ -21,10 +22,10 @@ namespace ElasticUp.Tests
             _elasticSearchContainer.Dispose();
         }
         
-        private static ElasticSearchContainer StartAndWaitForElasticSearchService()
+        private static async Task<ElasticSearchContainer> StartAndWaitForElasticSearchService()
         {
-            var elasticSearchContainer = ElasticSearchContainer.Start(new Version(2, 4,1));
-            elasticSearchContainer.WaitUntilElasticOperational();
+            var elasticSearchContainer = ElasticSearchContainer.Start();
+            await elasticSearchContainer.WaitUntilElasticOperational();
             return elasticSearchContainer;
         }
     }

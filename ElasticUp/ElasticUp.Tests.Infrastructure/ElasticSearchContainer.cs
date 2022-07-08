@@ -10,16 +10,18 @@ namespace ElasticUp.Tests.Infrastructure
     public class ElasticSearchContainer : IDisposable
     {
         private static readonly HttpClient HttpClient = new HttpClient();
-
-        private ElasticSearchContainer(Version version)
+        
+        private ElasticSearchContainer()
         {
-            StartElasticSearch(version);
+            StartElasticSearch();
         }
 
-        public void WaitUntilElasticOperational()
+        public async Task WaitUntilElasticOperational()
         {
-            SpinWait.SpinUntil(() => IsElasticSearchUpAndRunning().Result);
-            Thread.Sleep(1000);
+            while (!await IsElasticSearchUpAndRunning())
+            {
+                Thread.Sleep(1000);
+            }
         }
 
         public void Dispose()
@@ -29,36 +31,51 @@ namespace ElasticUp.Tests.Infrastructure
 
         private static void StopContainer()
         {
-            Process.Start(Command("docker", "rm -f elastic"))?.WaitForExit();
+            Process.Start(Command("docker-compose", "rm -fs"))?.WaitForExit();
         }
 
         private static ProcessStartInfo Command(string filename, string args) => new ProcessStartInfo(filename, args)
             { CreateNoWindow = true, UseShellExecute = false };
-        private static void StartElasticSearch(Version version)
+
+        private static void StartElasticSearch()
         {
-            Process.Start(Command("docker", $"pull elasticsearch:{version.ToString(3)}"))?.WaitForExit();
-            Process.Start(Command("docker", $"run -d -p 9200:9200 --name elastic elasticsearch:{version.ToString(3)}"))
-                ?.WaitForExit();
+            var pull = Process.Start(Command("docker-compose", "up -d"));
+            if (pull == null)
+            {
+                Console.WriteLine("Failed to locate Docker");
+            }
+            else
+            {
+                pull.WaitForExit();
+                if (pull.ExitCode != 0)
+                {
+                    Console.WriteLine("Failed to pull image.");
+                    throw new Exception();
+                }
+            }
+
+            
         }
 
         private static async Task<bool> IsElasticSearchUpAndRunning()
         {
-            const string endpointUrl = "http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=30s";
-
+            const string endpointUrl = "http://127.0.0.1:9200/_cluster/health?wait_for_status=yellow&timeout=30s";
             using (var request = new HttpRequestMessage(HttpMethod.Get, endpointUrl))
             {
                 try
                 {
                     var response = await HttpClient.SendAsync(request);
+                    Console.WriteLine(response.StatusCode);                    
                     return response.IsSuccessStatusCode;
                 }
-                catch
+                catch (Exception e)
                 {
+                    Console.WriteLine(e);
                     return false;
                 }
             }
         }
 
-        public static ElasticSearchContainer Start(Version version) => new ElasticSearchContainer(version);
+        public static ElasticSearchContainer Start() => new ElasticSearchContainer();
     }
 }
