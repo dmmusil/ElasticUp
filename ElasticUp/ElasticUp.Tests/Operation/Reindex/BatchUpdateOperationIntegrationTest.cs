@@ -61,7 +61,7 @@ namespace ElasticUp.Tests.Operation.Reindex
                 new BatchUpdateOperation<SampleObject, SampleObject>(descriptor => descriptor
                     .FromIndex(TestIndex.NextVersion().IndexNameWithVersion())
                     .ToIndex(TestIndex.NextVersion().NextIndexNameWithVersion())
-                    .DegreeOfParallellism(5)
+                    .DegreeOfParallellism(2)
                     .Transformation(doc =>
                     {
                         Interlocked.Increment(ref processedDocumentCount);
