@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_ACTIONS: "true"
     defaults:
       run:
         working-directory: ./ElasticUp
