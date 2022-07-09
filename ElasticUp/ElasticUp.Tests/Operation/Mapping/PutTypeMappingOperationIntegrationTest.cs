@@ -27,7 +27,6 @@ namespace ElasticUp.Tests.Operation.Mapping
 
             var response = ElasticClient.GetMapping(new GetMappingRequest(Indices.Parse(TestIndex.IndexNameWithVersion())));
             response.Indices.ToList()[0].Key.Should().Be(TestIndex.IndexNameWithVersion());
-            ((TextProperty)response.Indices.ToList()[0].Value[type].Properties.ToList()[1].Value).Index.Should().Be(true);
         }
 
         [Test]
