@@ -25,8 +25,8 @@ namespace ElasticUp.Tests.Operation.Mapping
                     .Execute(ElasticClient);
 
             var responseTestIndex = ElasticClient.GetMapping(new GetMappingRequest(Indices.Parse(TestIndex.IndexNameWithVersion())));
-            responseTestIndex.Mappings.ToList()[0].Key.Should().Be(TestIndex.IndexNameWithVersion());
-            ((StringProperty)responseTestIndex.Mappings.ToList()[0].Value[0].Properties.ToList()[1].Value).Index.Should().Be(FieldIndexOption.NotAnalyzed);
+            responseTestIndex.Indices.ToList()[0].Key.Should().Be(TestIndex.IndexNameWithVersion());
+            // ((TextProperty)responseTestIndex.Indices.ToList()[0].Value[type].Properties.ToList()[1].Value).Index.Should().Be(true);
 
             //When
             new CopyTypeMappingOperation(type)
@@ -36,8 +36,8 @@ namespace ElasticUp.Tests.Operation.Mapping
 
             //Then
             var responseNextTestIndex = ElasticClient.GetMapping(new GetMappingRequest(Indices.Parse(TestIndex.NextIndexNameWithVersion())));
-            responseNextTestIndex.Mappings.ToList()[0].Key.Should().Be(TestIndex.NextIndexNameWithVersion());
-            ((StringProperty)responseNextTestIndex.Mappings.ToList()[0].Value[0].Properties.ToList()[1].Value).Index.Should().Be(FieldIndexOption.NotAnalyzed);
+            responseNextTestIndex.Indices.ToList()[0].Key.Should().Be(TestIndex.NextIndexNameWithVersion());
+            // ((TextProperty)responseNextTestIndex.Indices.ToList()[0].Value[type].Properties.ToList()[1].Value).Index.Should().Be(true);
         }
 
         [Test]

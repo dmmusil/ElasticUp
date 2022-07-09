@@ -2,14 +2,14 @@
   "sampledocument": {
     "properties": {
       "id": {
-        "type": "string"
+        "type": "text"
       },
       "name": {
-        "type": "string",
-        "index": "not_analyzed"
+        "type": "text",
+        "index": "true"
       },
       "test": {
-        "type": "string"
+        "type": "text"
       }
     }
   }
