@@ -5,8 +5,7 @@
         "type": "text"
       },
       "name": {
-        "type": "text",
-        "index": "true"
+        "type": "keyword"
       },
       "test": {
         "type": "text"
