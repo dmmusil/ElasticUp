@@ -117,7 +117,7 @@ namespace ElasticUp.Tests.History
         [Test]
         public void HasMigrationAlreadyBeenApplied_FalseIfMigrationIndexDoesNotExist()
         {
-            ElasticClient.DeleteIndex(MigrationHistoryTestIndex.AliasName);
+            ElasticClient.DeleteIndex(MigrationHistoryTestIndex.IndexNameWithVersion());
             ElasticClient.Refresh(Indices.All);
 
             var migration = new SampleEmptyVersionedIndexMigration(TestIndex.IndexNameWithVersion());
