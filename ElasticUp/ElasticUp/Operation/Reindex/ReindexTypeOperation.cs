@@ -63,7 +63,7 @@ namespace ElasticUp.Operation.Reindex
                     .Refresh();
 
                 if (!string.IsNullOrWhiteSpace(Script))
-                    descriptor.Script(scriptDescriptor => scriptDescriptor.Inline(Script));
+                    descriptor.Script(scriptDescriptor => scriptDescriptor.Source(Script));
 
                 return descriptor;
             });

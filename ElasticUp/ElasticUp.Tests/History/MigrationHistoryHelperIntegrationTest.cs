@@ -18,13 +18,13 @@ namespace ElasticUp.Tests.History
         {
             ElasticClient.DeleteIndex(MigrationHistoryTestIndex.IndexNameWithVersion());
             ElasticClient.IndexExists(MigrationHistoryTestIndex.IndexNameWithVersion()).Exists.Should().BeFalse();
-            ElasticClient.AliasExists(descriptor => descriptor.Name(MigrationHistoryTestIndex.AliasName)).Exists.Should().BeFalse();  
+            ElasticClient.AliasExists(MigrationHistoryTestIndex.AliasName, descriptor => descriptor.Name(MigrationHistoryTestIndex.AliasName)).Exists.Should().BeFalse();  
             ElasticClient.IndexExists(MigrationHistoryTestIndex.IndexNameWithVersion()).Exists.Should().BeFalse();
             
             new MigrationHistoryHelper(ElasticClient, MigrationHistoryTestIndex.AliasName).InitMigrationHistory();
 
             ElasticClient.IndexExists(MigrationHistoryTestIndex.IndexNameWithVersion()).Exists.Should().BeTrue();
-            ElasticClient.AliasExists(descriptor => descriptor
+            ElasticClient.AliasExists(MigrationHistoryTestIndex.AliasName, descriptor => descriptor
                             .Index(MigrationHistoryTestIndex.IndexNameWithVersion())
                             .Name(MigrationHistoryTestIndex.AliasName))
                             .Exists.Should().BeTrue();
@@ -35,7 +35,7 @@ namespace ElasticUp.Tests.History
         {
             new AliasHelper(ElasticClient).RemoveAliasFromIndex(MigrationHistoryTestIndex.AliasName, MigrationHistoryTestIndex.IndexNameWithVersion());
             ElasticClient.IndexExists(MigrationHistoryTestIndex.IndexNameWithVersion()).Exists.Should().BeTrue();
-            ElasticClient.AliasExists(descriptor => descriptor.Name(MigrationHistoryTestIndex.AliasName)).Exists.Should().BeFalse();  
+            ElasticClient.AliasExists(MigrationHistoryTestIndex.AliasName, descriptor => descriptor.Name(MigrationHistoryTestIndex.AliasName)).Exists.Should().BeFalse();  
 
             Assert.Throws<ElasticUpException>(() => new MigrationHistoryHelper(ElasticClient, MigrationHistoryTestIndex.AliasName).InitMigrationHistory());
         }

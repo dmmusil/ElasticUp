@@ -26,8 +26,8 @@ namespace ElasticUp.Tests.Operation.Mapping
                     .Execute(ElasticClient);
 
             var response = ElasticClient.GetMapping(new GetMappingRequest(Indices.Parse(TestIndex.IndexNameWithVersion())));
-            response.Mappings.ToList()[0].Key.Should().Be(TestIndex.IndexNameWithVersion());
-            ((StringProperty)response.Mappings.ToList()[0].Value[0].Properties.ToList()[1].Value).Index.Should().Be(FieldIndexOption.NotAnalyzed);
+            response.Indices.ToList()[0].Key.Should().Be(TestIndex.IndexNameWithVersion());
+            ((TextProperty)response.Indices.ToList()[0].Value[type].Properties.ToList()[1].Value).Index.Should().Be(true);
         }
 
         [Test]
@@ -42,9 +42,9 @@ namespace ElasticUp.Tests.Operation.Mapping
             new PutTypeMappingOperation(type).OnIndex(TestIndex.IndexNameWithVersion()).WithMapping(mapping2).Execute(ElasticClient);
 
             var response = ElasticClient.GetMapping(new GetMappingRequest(Indices.Parse(TestIndex.IndexNameWithVersion())));
-            response.Mappings.ToList()[0].Key.Should().Be(TestIndex.IndexNameWithVersion());
-            response.Mappings.ToList()[0].Value[0].Properties.ToList()[1].Key.Name.Should().Be("name");
-            response.Mappings.ToList()[0].Value[0].Properties.ToList()[2].Key.Name.Should().Be("test");
+            response.Indices.ToList()[0].Key.Should().Be(TestIndex.IndexNameWithVersion());
+            response.Indices.ToList()[0].Value[type].Properties.ToList()[1].Key.Name.Should().Be("name");
+            response.Indices.ToList()[0].Value[type].Properties.ToList()[2].Key.Name.Should().Be("test");
         }
 
         [Test]

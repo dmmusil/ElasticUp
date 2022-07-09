@@ -39,7 +39,7 @@ namespace ElasticUp.Tests.ElasticUpFullStackTests
             
             var indicesPointingToAlias = ElasticClient.GetIndicesPointingToAlias(TestIndex.AliasName);
             indicesPointingToAlias.Should().HaveCount(1);
-            indicesPointingToAlias[0].Should().Be(TestIndex.NextIndexNameWithVersion());
+            indicesPointingToAlias.First().Should().Be(TestIndex.NextIndexNameWithVersion());
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace ElasticUp.Tests.ElasticUpFullStackTests
 
             var indicesPointingToAlias = ElasticClient.GetIndicesPointingToAlias(TestIndex.AliasName);
             indicesPointingToAlias.Should().HaveCount(1);
-            indicesPointingToAlias[0].Should().Be(TestIndex.NextIndexNameWithVersion());
+            indicesPointingToAlias.First().Should().Be(TestIndex.NextIndexNameWithVersion());
         }
 
         [Test]

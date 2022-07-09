@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ElasticUp.Util;
 using Nest;
 
@@ -22,7 +23,7 @@ namespace ElasticUp.Migration
             if (indicesForAlias == null || indicesForAlias.Count > 1)
                 throw new NotSupportedException("Error: Not supporting multiple indices with the same alias!");
 
-            var versionedIndexName = VersionedIndexName.CreateFromIndexName(indicesForAlias[0]);
+            var versionedIndexName = VersionedIndexName.CreateFromIndexName(indicesForAlias.First());
 
             FromIndexName = versionedIndexName.IndexNameWithVersion();
             ToIndexName = versionedIndexName.NextVersion().IndexNameWithVersion();

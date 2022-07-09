@@ -66,7 +66,7 @@ namespace ElasticUp.Operation.Delete
                 .Type(TypeName)
                 .Scroll(new Time(ScrollTimeout))
                 .Take(BatchSize)
-                .Fields(fieldsDescr => fieldsDescr.Fields(Enumerable.Empty<Field>())));
+                .DocValueFields(fieldsDescr => fieldsDescr.Fields(Enumerable.Empty<Field>())));
 
             while (idsScrollResponse.Documents.Any())
             {

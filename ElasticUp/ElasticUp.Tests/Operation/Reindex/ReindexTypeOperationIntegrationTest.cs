@@ -99,6 +99,7 @@ namespace ElasticUp.Tests.Operation.Reindex
         [Test]
         public void AppearantlyMappingIsNotCopiedWhenReindexing()
         {
+            var type = nameof(SampleDocument).ToLower();
             //Given
             new PutTypeMappingOperation<SampleDocument>()
                 .OnIndex(TestIndex.AliasName)
@@ -106,8 +107,8 @@ namespace ElasticUp.Tests.Operation.Reindex
                 .Execute(ElasticClient);
 
             var responseTestIndex = ElasticClient.GetMapping(new GetMappingRequest(Indices.Parse(TestIndex.IndexNameWithVersion())));
-            responseTestIndex.Mappings.ToList()[0].Key.Should().Be(TestIndex.IndexNameWithVersion());
-            ((StringProperty)responseTestIndex.Mappings.ToList()[0].Value[0].Properties.ToList()[1].Value).Index.Should().Be(FieldIndexOption.NotAnalyzed);
+            responseTestIndex.Indices.ToList()[0].Key.Should().Be(TestIndex.IndexNameWithVersion());
+            ((TextProperty)responseTestIndex.Indices.ToList()[0].Value[type].Properties.ToList()[1].Value).Index.Should().Be(true);
 
             ElasticClient.Index(new SampleDocument { Id = "1", Name = "jabba/the/hut" }, id => id.Index(TestIndex.AliasName));
             ElasticClient.Refresh(Indices.All);
@@ -123,20 +124,22 @@ namespace ElasticUp.Tests.Operation.Reindex
             SpinWait.SpinUntil(() => ElasticClient.Search<SampleDocument>(s => s.Index(TestIndex.NextIndexNameWithVersion()).Query(q => q.Term(t => t.Name, "jabba/the/hut"))).Documents.Count() == 1, TimeSpan.FromSeconds(10));
 
             var responseNextTestIndex = ElasticClient.GetMapping(new GetMappingRequest(Indices.Parse(TestIndex.NextIndexNameWithVersion())));
-            responseNextTestIndex.Mappings.ToList()[0].Key.Should().Be(TestIndex.NextIndexNameWithVersion());
-            ((StringProperty)responseNextTestIndex.Mappings.ToList()[0].Value[0].Properties.ToList()[1].Value).Index.Should().NotBe(FieldIndexOption.NotAnalyzed);
+            responseNextTestIndex.Indices.ToList()[0].Key.Should().Be(TestIndex.NextIndexNameWithVersion());
+            ((TextProperty)responseNextTestIndex.Indices.ToList()[0].Value[type].Properties.ToList()[1].Value).Index.Should().BeFalse();
         }
 
         [Test]
-        [Ignore("experimental. Uses groovy but groovy not enabled. In Elastic 5+ should use 'painless' script")]
+        [NUnit.Framework.Ignore("experimental. Uses groovy but groovy not enabled. In Elastic 5+ should use 'painless' script")]
         public void ReindexWithScriptToModifyAField()
         {
+            var request =
+                new IndexRequest<SampleDocumentWithValue>(new SampleDocumentWithValue { Id = "1", Value = 123456 });
             // GIVEN
-            ElasticClient.Index(new Sample.IntValue.SampleDocumentWithValue { Id = "1", Value = 123456});
+            ElasticClient.Index(request);
             ElasticClient.Refresh(Indices.All);
             
             //Check mapping of Value = number
-            var propertyMappingBeforeReindex = ElasticClient.GetMapping<SampleDocumentWithValue>().IndexTypeMappings["reindexwithscripttomodifyafield-v0"]["sampledocumentwithvalue"].Properties.ToList()[1];
+            var propertyMappingBeforeReindex = ElasticClient.GetMapping<SampleDocumentWithValue>().Indices["reindexwithscripttomodifyafield-v0"]["sampledocumentwithvalue"].Properties.ToList()[1];
             propertyMappingBeforeReindex.Key.Name.Should().Be("value");
             propertyMappingBeforeReindex.Value.GetType().Should().Be(typeof(NumberProperty));
 
@@ -148,9 +151,9 @@ namespace ElasticUp.Tests.Operation.Reindex
                 .Execute(ElasticClient);
 
             //Check mapping of Value = number
-            var propertyMappingAfterReindex = ElasticClient.GetMapping<SampleDocumentWithValue>(d => d.Index(TestIndex.NextIndexNameWithVersion())).IndexTypeMappings["reindexwithscripttomodifyafield-v1"]["sampledocumentwithvalue"].Properties.ToList()[1];
+            var propertyMappingAfterReindex = ElasticClient.GetMapping<SampleDocumentWithValue>(d => d.Index(TestIndex.NextIndexNameWithVersion())).Indices["reindexwithscripttomodifyafield-v1"]["sampledocumentwithvalue"].Properties.ToList()[1];
             propertyMappingAfterReindex.Key.Name.Should().Be("value");
-            propertyMappingAfterReindex.Value.GetType().Should().Be(typeof(StringProperty));
+            propertyMappingAfterReindex.Value.GetType().Should().Be(typeof(TextProperty));
             
             // THEN
             ElasticClient.Refresh(Indices.All);
@@ -165,7 +168,7 @@ namespace ElasticUp.Tests.Operation.Reindex
 
 
         [Test]
-        [Ignore("test with refresh interval")]
+        [NUnit.Framework.Ignore("test with refresh interval")]
         public void TomsRefreshIntervalExperimentWithReindex()
         {
             // GIVEN

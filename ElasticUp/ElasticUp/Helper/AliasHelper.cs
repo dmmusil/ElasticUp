@@ -38,7 +38,7 @@ namespace ElasticUp.Helper
         
         public virtual bool AliasExistsOnIndex(string alias, string index)
         {
-            return _elasticClient.AliasExists(r => r.Index(index).Name(alias)).Exists;
+            return _elasticClient.AliasExists(alias, r => r.Index(index).Name(alias)).Exists;
         }
 
         public virtual bool AliasDoesNotExistOnIndex(string alias, string index)

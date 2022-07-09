@@ -41,11 +41,11 @@ namespace ElasticUp.Operation.Mapping
 
         public override void Execute(IElasticClient elasticClient)
         {
-            var mapping = elasticClient.GetMapping(new GetMappingRequest(Indices.Parse(FromIndexName))).Mapping;
+            var mapping = elasticClient.GetMapping(new GetMappingRequest(Indices.Parse(FromIndexName))).Indices;
             
             elasticClient.Map(new PutMappingRequest(ToIndexName, Type)
             {
-                Properties = mapping.Properties
+                Properties = mapping[FromIndexName][Type].Properties
             });
         }
     }
