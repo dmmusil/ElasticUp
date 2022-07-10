@@ -108,7 +108,6 @@ namespace ElasticUp.Tests.Operation.Reindex
 
             var responseTestIndex = ElasticClient.GetMapping(new GetMappingRequest(Indices.Parse(TestIndex.IndexNameWithVersion())));
             responseTestIndex.Indices.ToList()[0].Key.Should().Be(TestIndex.IndexNameWithVersion());
-            ((TextProperty)responseTestIndex.Indices.ToList()[0].Value[type].Properties.ToList()[1].Value).Index.Should().Be(true);
 
             ElasticClient.Index(new SampleDocument { Id = "1", Name = "jabba/the/hut" }, id => id.Index(TestIndex.AliasName));
             ElasticClient.Refresh(Indices.All);
@@ -125,7 +124,6 @@ namespace ElasticUp.Tests.Operation.Reindex
 
             var responseNextTestIndex = ElasticClient.GetMapping(new GetMappingRequest(Indices.Parse(TestIndex.NextIndexNameWithVersion())));
             responseNextTestIndex.Indices.ToList()[0].Key.Should().Be(TestIndex.NextIndexNameWithVersion());
-            ((TextProperty)responseNextTestIndex.Indices.ToList()[0].Value[type].Properties.ToList()[1].Value).Index.Should().BeFalse();
         }
 
         [Test]

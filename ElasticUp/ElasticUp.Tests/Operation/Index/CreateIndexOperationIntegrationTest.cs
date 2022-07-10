@@ -9,6 +9,13 @@ namespace ElasticUp.Tests.Operation.Index
     [TestFixture]
     public class CreateIndexOperationIntegrationTest : AbstractIntegrationTest
     {
+        [SetUp]
+        public void Setup()
+        {
+            var customIndexName = TestIndex.IndexNameWithVersion() + "-custom";
+            TryDeleteIndex(customIndexName);            
+        }
+        
         [Test]
         public void CreatesIndex()
         {
