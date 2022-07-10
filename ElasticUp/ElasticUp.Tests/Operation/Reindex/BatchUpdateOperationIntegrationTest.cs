@@ -79,14 +79,10 @@ namespace ElasticUp.Tests.Operation.Reindex
                 .Count.Should()
                 .Be(expectedDocumentCount);
             
-            Console.WriteLine($"GITHUB_ACTION: {Environment.GetEnvironmentVariable("GITHUB_ACTION")}");
-            if (Environment.GetEnvironmentVariable("GITHUB_ACTION") != "true")
-            {
-                //VERIFY parallel was faster
-                timerWithoutParallel.GetElapsedMilliseconds()
-                    .Should()
-                    .BeGreaterThan(timerWithParallel.GetElapsedMilliseconds());
-            }
+            //VERIFY parallel was faster
+            timerWithoutParallel.GetElapsedMilliseconds()
+                .Should()
+                .BeGreaterThan(timerWithParallel.GetElapsedMilliseconds());
         }
 
         [Test]
