@@ -81,10 +81,15 @@ namespace ElasticUp.Tests.Operation.Reindex
             
             if (Environment.GetEnvironmentVariable("CI") != "true")
             {
+                Console.WriteLine("Verifying parallel was faster.");
                 //VERIFY parallel was faster
                 timerWithoutParallel.GetElapsedMilliseconds()
                     .Should()
                     .BeGreaterThan(timerWithParallel.GetElapsedMilliseconds());
+            }
+            else
+            {
+                Console.WriteLine("Not verifying parallelism. It's flaky in GHA.");
             }
         }
 
