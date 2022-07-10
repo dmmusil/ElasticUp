@@ -30,6 +30,10 @@ namespace ElasticUp.Tests
 
             ElasticClient = new ElasticClient(settings);
 
+            TryDeleteIndex(TestIndex.IndexNameWithVersion());
+            TryDeleteIndex(TestIndex.NextIndexNameWithVersion());
+            TryDeleteIndex(MigrationHistoryTestIndex);
+
             CreateMigrationHistoryTestIndex();
             CreateTestIndex();
             CreateNextTestIndex();
@@ -64,9 +68,6 @@ namespace ElasticUp.Tests
         [TearDown]
         protected void TearDown()
         {
-            TryDeleteIndex(TestIndex.IndexNameWithVersion());
-            TryDeleteIndex(TestIndex.NextIndexNameWithVersion());
-            TryDeleteIndex(MigrationHistoryTestIndex);
         }
 
 
