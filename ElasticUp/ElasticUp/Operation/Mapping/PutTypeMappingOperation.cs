@@ -41,7 +41,7 @@ namespace ElasticUp.Operation.Mapping
 
         public override void Execute(IElasticClient elasticClient)
         {
-            elasticClient.LowLevel.IndicesPutMapping<byte[]>(IndexName, Type, new PostData<object>(JsonMappingAsString));
+            elasticClient.LowLevel.IndicesPutMapping<PutMappingResponse>(IndexName, Type, PostData.String(JsonMappingAsString));
         }
     }
 

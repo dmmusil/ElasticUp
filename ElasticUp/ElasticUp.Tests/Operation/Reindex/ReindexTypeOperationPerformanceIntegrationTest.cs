@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace ElasticUp.Tests.Operation.Reindex
 {
     [TestFixture]
-    [Ignore("experiments")]
+    [NUnit.Framework.Ignore("experiments")]
     public class ReindexTypeOperationPerformanceIntegrationTest : AbstractIntegrationTest
     {
         private const int NumberOfObjects = 500000;

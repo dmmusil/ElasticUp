@@ -19,7 +19,7 @@ namespace ElasticUp.Tests
         [OneTimeTearDown]
         public void TeardownElasticSearchInstance()
         {
-            _elasticSearchContainer.Dispose();
+            //_elasticSearchContainer.Dispose();
         }
         
         private static async Task<ElasticSearchContainer> StartAndWaitForElasticSearchService()

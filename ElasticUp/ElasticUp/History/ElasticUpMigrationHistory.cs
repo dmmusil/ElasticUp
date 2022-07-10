@@ -5,10 +5,10 @@ namespace ElasticUp.History
 {
     public class ElasticUpMigrationHistory
     {
-        [String(Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(Index = true)]
         public string ElasticUpMigrationName { get; set; }
 
-        [String(Index = FieldIndexOption.NotAnalyzed)]
+        [Keyword(Index = true)]
         public string ElasticUpOperationName { get; set; }
 
         public DateTime ElasticUpMigrationApplied { get; set; } = DateTime.UtcNow;

@@ -1,7 +1,7 @@
 version: "2.2"
 services:
   elasticsearch:
-    image: elasticsearch:2.4.1
+    image: elasticsearch:6.8.13
     container_name: elasticsearch
     environment:
       - node.name=es01

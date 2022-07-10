@@ -9,8 +9,8 @@
     <None Include="ElasticUp.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Elasticsearch.Net" Version="2.4.7" />
-    <PackageReference Include="NEST" Version="2.4.7" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="Elasticsearch.Net" Version="6.8.11" />
+    <PackageReference Include="NEST" Version="6.8.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>
