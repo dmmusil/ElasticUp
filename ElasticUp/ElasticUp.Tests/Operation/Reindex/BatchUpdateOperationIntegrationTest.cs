@@ -62,7 +62,7 @@ namespace ElasticUp.Tests.Operation.Reindex
                 new BatchUpdateOperation<SampleObject, SampleObject>(descriptor => descriptor
                     .FromIndex(TestIndex.NextVersion().IndexNameWithVersion())
                     .ToIndex(TestIndex.NextVersion().NextIndexNameWithVersion())
-                    .DegreeOfParallellism(5)
+                    .DegreeOfParallellism(2)
                     .Transformation(doc =>
                     {
                         Interlocked.Increment(ref processedDocumentCount);
@@ -78,7 +78,8 @@ namespace ElasticUp.Tests.Operation.Reindex
                 .Count<SampleObject>(descriptor => descriptor.Index(TestIndex.NextVersion().NextIndexNameWithVersion()))
                 .Count.Should()
                 .Be(expectedDocumentCount);
-
+            
+            Console.WriteLine($"GITHUB_ACTION: {Environment.GetEnvironmentVariable("GITHUB_ACTION")}");
             if (Environment.GetEnvironmentVariable("GITHUB_ACTION") != "true")
             {
                 //VERIFY parallel was faster
