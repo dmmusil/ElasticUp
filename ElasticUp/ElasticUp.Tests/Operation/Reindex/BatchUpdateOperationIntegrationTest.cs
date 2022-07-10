@@ -123,7 +123,7 @@ namespace ElasticUp.Tests.Operation.Reindex
             // TEST
             var processedRecordCount = 0;
 
-            var operation = new BatchUpdateOperation<JObject, JObject>(descriptor => descriptor
+            var operation = new BatchUpdateOperation<SampleObject, SampleObject>(descriptor => descriptor
                 .BatchSize(50)
                 .FromIndex(TestIndex.IndexNameWithVersion())
                 .ToIndex(TestIndex.NextIndexNameWithVersion())
@@ -132,7 +132,7 @@ namespace ElasticUp.Tests.Operation.Reindex
                 .SearchDescriptor(sd => sd.MatchAll())
                 .Transformation(doc =>
                 {
-                    doc["number"] = 666;
+                    doc.Number = 666;
                     Interlocked.Increment(ref processedRecordCount);
                     return doc;
                 }));
