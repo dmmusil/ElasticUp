@@ -6,6 +6,7 @@ Easy ElasticSearch data migrations for continuous integration and deployment! In
 When developing new features it is possible your datamodel changes. This may require an update of your existing data in ElasticSearch. Or maybe you just want to reindex your data while doing some transformations. We wanted a tool similar to [DbUp](https://dbup.github.io/) for sql, that we could use in our [TeamCity] (https://www.jetbrains.com/teamcity) build and while deploying new software versions with [Octopus Deploy](http://github.com). 
 
 Our requirements for ElasticUp are:
+
 - automate the migration and transformation of data in your ElasticSearch
 - track history of executed migrations so they run once and only once
 - offer sensible base classes and helpers to implement your own migrations
